@@ -1,5 +1,7 @@
 using CatApiApp.Data;
+using CatApiApp.Services;
 using Microsoft.EntityFrameworkCore;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddRefitClient<ICatApiClient>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.thecatapi.com/"));
 
 var app = builder.Build();
 
