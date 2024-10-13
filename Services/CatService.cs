@@ -1,5 +1,6 @@
 ﻿using CatApiApp.Data;
 using CatApiApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatApiApp.Services
 {
@@ -34,7 +35,7 @@ namespace CatApiApp.Services
                         Width = cat.Width,
                         Height = cat.Height,
                         Image = cat.Url,
-                        Tags = ExtractTagsFromBreed(cat.Breeds)
+                        Tags = await ExtractTagsFromBreed(cat.Breeds)
                     };
                     _context.Cats.Add(newCat);
                 }
@@ -47,22 +48,37 @@ namespace CatApiApp.Services
         /// </summary>
         /// <param name="breeds">The list of breeds associated with the cat.</param>
         /// <returns>A list of <see cref="TagEntity"/> objects representing the cat's temperament.</returns>
-        private List<TagEntity> ExtractTagsFromBreed(List<CatBreed> breeds)
+        private async Task<List<TagEntity>> ExtractTagsFromBreed(List<CatBreed> breeds)
         {
             var tags = new List<TagEntity>();
+
             foreach (var breed in breeds)
             {
                 var temperaments = breed.Temperament.Split(',');
+
                 foreach (var temperament in temperaments)
                 {
                     var trimmedTemperament = temperament.Trim();
-                    var tag = _context.Tags.FirstOrDefault(t => t.Name == trimmedTemperament);
-                    if (tag == null)
+
+                    // Check if the tag already exists in the database
+                    var existingTag = await _context.Tags.FirstOrDefaultAsync(t => t.Name == trimmedTemperament);
+
+                    if (existingTag == null)
                     {
-                        tag = new TagEntity { Name = trimmedTemperament };
-                        _context.Tags.Add(tag);
+                        // If the tag doesn't exist, create a new one
+                        var newTag = new TagEntity
+                        {
+                            Name = trimmedTemperament,
+                            Created = DateTime.UtcNow
+                        };
+                        _context.Tags.Add(newTag);
+                        tags.Add(newTag);
                     }
-                    tags.Add(tag);
+                    else
+                    {
+                        // Reuse the existing tag
+                        tags.Add(existingTag);
+                    }
                 }
             }
             return tags;

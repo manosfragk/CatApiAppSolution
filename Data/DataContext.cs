@@ -33,7 +33,12 @@ namespace CatApiApp.Data
             // Many-to-many relationship between Cats and Tags
             modelBuilder.Entity<CatEntity>()
                 .HasMany(c => c.Tags)
-                .WithMany(t => t.Cats);
+                .WithMany(t => t.Cats)
+                .UsingEntity<Dictionary<string, object>>(
+                "CatEntityTagEntity",
+                j => j.HasOne<TagEntity>().WithMany().HasForeignKey("TagsId"),
+                j => j.HasOne<CatEntity>().WithMany().HasForeignKey("CatsId")
+            );
         }
     }
 }
