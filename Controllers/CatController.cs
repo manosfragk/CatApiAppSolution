@@ -93,9 +93,11 @@ namespace CatApiApp.Controllers
                 query = query.Where(c => c.Tags.Any(t => t.Name == tag));
             }
 
+            query = query.OrderBy(c => c.Id);
+
             var pagedCats = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            if (!pagedCats.Any())
+            if (pagedCats.Count == 0)
             {
                 return NotFound("No cats found.");
             }
