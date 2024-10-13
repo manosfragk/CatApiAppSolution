@@ -70,8 +70,19 @@ namespace CatApiApp.Controllers
         }
 
         /// <summary>
-        /// Retrieve cats with paging support.
+        /// Retrieves a list of cats with optional paging and filtering by tag.
         /// </summary>
+        /// <param name="page">The page number to retrieve. Defaults to 1.</param>
+        /// <param name="pageSize">The number of cats per page. Defaults to 10.</param>
+        /// <param name="tag">
+        /// An optional tag used to filter cats by their associated tag (e.g., temperament). 
+        /// If the tag is null or empty, all cats will be returned.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IActionResult"/> containing a paginated list of cats, filtered by tag if provided.
+        /// </returns>
+        /// <response code="200">Returns the list of cats with paging support.</response>
+        /// <response code="404">If no cats are found.</response>
         [HttpGet]
         public async Task<IActionResult> GetCats(int page = 1, int pageSize = 10, string tag = null)
         {
@@ -83,8 +94,15 @@ namespace CatApiApp.Controllers
             }
 
             var pagedCats = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            if (!pagedCats.Any())
+            {
+                return NotFound("No cats found.");
+            }
+
             return Ok(pagedCats);
         }
+
     }
 
 }
