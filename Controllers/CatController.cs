@@ -2,6 +2,7 @@
 using CatApiApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace CatApiApp.Controllers
 {
@@ -19,13 +20,27 @@ namespace CatApiApp.Controllers
         }
 
         /// <summary>
-        /// Fetch 25 cat images from the CaaS API and store them in the database.
+        /// Fetch 25 cat images from the TheCat API and store them in the database.
         /// </summary>
         [HttpPost("fetch")]
         public async Task<IActionResult> FetchAndStoreCats()
         {
-            await _catService.FetchAndStoreCatsAsync();
-            return Ok("Cats fetched and stored successfully.");
+            try
+            {
+                // Fetch and store cats
+                await _catService.FetchAndStoreCatsAsync();
+
+                return Ok(new { Message = "Cats fetched and stored successfully." });
+            }
+            catch (ValidationException ex)
+            {
+                // If a validation exception occurs, return a bad request with details
+                return BadRequest(new { ex.Message, Errors = ex.Data });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred while processing your request.", Details = ex.Message });
+            }
         }
 
         /// <summary>

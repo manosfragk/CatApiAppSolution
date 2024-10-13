@@ -4,7 +4,7 @@ namespace CatApiApp.Services
 {
     public interface ICatApiClient
     {
-        [Get("/v1/images/search?limit=25&has_breeds=true")]
+        [Get("/v1/imagefgsgsgs/search?limit=25&has_breeds=true")]
         Task<List<CatApiResponse>> FetchCatImagesAsync();
     }
 

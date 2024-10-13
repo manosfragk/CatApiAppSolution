@@ -1,7 +1,7 @@
 
 # **Cat API Service**
 
-This project is an ASP.NET Core Web API that fetches 25 cat images from the "Cats as a Service" (CaaS) API, stores them in a SQL Server database, and provides endpoints for retrieving this data with paging and filtering support. The service also stores tags representing the cats' temperaments.
+This project is an ASP.NET Core Web API that fetches 25 cat images from the "Cats as a Service" (TheCat) API, stores them in a SQL Server database, and provides endpoints for retrieving this data with paging and filtering support. The service also stores tags representing the cats' temperaments.
 
 ## **Features**
 - Fetch 25 cat images from the external API and store them in a SQL Server database.
