@@ -23,8 +23,8 @@ Before you begin, ensure you have met the following requirements:
 ### **1. Clone the Repository**
 
 ```bash
-git clone https://github.com/your-username/cat-api-service.git
-cd cat-api-service
+git clone https://github.com/manosfragk/CatApiAppSolution.git
+cd CatApiAppSolution
 ```
 
 ### **2. Configure the Database Connection**
