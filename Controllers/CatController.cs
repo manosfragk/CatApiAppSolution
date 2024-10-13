@@ -9,23 +9,17 @@ namespace CatApiApp.Controllers
     /// <summary>
     /// Controller to handle cat-related API actions.
     /// </summary>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="CatController"/> class.
+    /// </remarks>
+    /// <param name="catService">The service for handling cat-related operations.</param>
+    /// <param name="context">The database context for interacting with the database.</param>
     [ApiController]
     [Route("api/[controller]")]
-    public class CatController : ControllerBase
+    public class CatController(CatService catService, DataContext context) : ControllerBase
     {
-        private readonly CatService _catService;
-        private readonly DataContext _context;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CatController"/> class.
-        /// </summary>
-        /// <param name="catService">The service for handling cat-related operations.</param>
-        /// <param name="context">The database context for interacting with the database.</param>
-        public CatController(CatService catService, DataContext context)
-        {
-            _catService = catService;
-            _context = context;
-        }
+        private readonly CatService _catService = catService;
+        private readonly DataContext _context = context;
 
         /// <summary>
         /// Fetches 25 cat images from an external API and stores them in the database.

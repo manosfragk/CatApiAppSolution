@@ -6,21 +6,15 @@ namespace CatApiApp.Services
     /// <summary>
     /// Service for managing cat-related operations, including fetching and storing cat data from an external API.
     /// </summary>
-    public class CatService
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="CatService"/> class.
+    /// </remarks>
+    /// <param name="catApiClient">The client used to interact with the external Cat API.</param>
+    /// <param name="context">The database context used to interact with the Cats and Tags entities.</param>
+    public class CatService(ICatApiClient catApiClient, DataContext context)
     {
-        private readonly ICatApiClient _catApiClient;
-        private readonly DataContext _context;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CatService"/> class.
-        /// </summary>
-        /// <param name="catApiClient">The client used to interact with the external Cat API.</param>
-        /// <param name="context">The database context used to interact with the Cats and Tags entities.</param>
-        public CatService(ICatApiClient catApiClient, DataContext context)
-        {
-            _catApiClient = catApiClient;
-            _context = context;
-        }
+        private readonly ICatApiClient _catApiClient = catApiClient;
+        private readonly DataContext _context = context;
 
         /// <summary>
         /// Fetches 25 cat images from the external API and stores them in the database.

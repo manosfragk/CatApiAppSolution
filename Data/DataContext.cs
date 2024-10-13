@@ -7,13 +7,12 @@ namespace CatApiApp.Data
     /// Represents the database context for the Cat API application, responsible for managing the interaction
     /// with the Cats and Tags entities in the database.
     /// </summary>
-    public class DataContext : DbContext
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="DataContext"/> class.
+    /// </remarks>
+    /// <param name="options">The options to be used by the DbContext.</param>
+    public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DataContext"/> class.
-        /// </summary>
-        /// <param name="options">The options to be used by the DbContext.</param>
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         /// <summary>
         /// Gets or sets the collection of <see cref="CatEntity"/> stored in the database.
