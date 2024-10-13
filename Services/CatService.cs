@@ -3,11 +3,19 @@ using CatApiApp.Models;
 
 namespace CatApiApp.Services
 {
+    /// <summary>
+    /// Service for managing cat-related operations, including fetching and storing cat data from an external API.
+    /// </summary>
     public class CatService
     {
         private readonly ICatApiClient _catApiClient;
         private readonly DataContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CatService"/> class.
+        /// </summary>
+        /// <param name="catApiClient">The client used to interact with the external Cat API.</param>
+        /// <param name="context">The database context used to interact with the Cats and Tags entities.</param>
         public CatService(ICatApiClient catApiClient, DataContext context)
         {
             _catApiClient = catApiClient;
@@ -41,8 +49,10 @@ namespace CatApiApp.Services
         }
 
         /// <summary>
-        /// Extracts tags from cat breeds (temperament).
+        /// Extracts tags from cat breeds (temperament) and returns a list of associated tags.
         /// </summary>
+        /// <param name="breeds">The list of breeds associated with the cat.</param>
+        /// <returns>A list of <see cref="TagEntity"/> objects representing the cat's temperament.</returns>
         private List<TagEntity> ExtractTagsFromBreed(List<CatBreed> breeds)
         {
             var tags = new List<TagEntity>();

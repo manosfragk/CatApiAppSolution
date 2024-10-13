@@ -2,6 +2,7 @@ using CatApiApp.Data;
 using CatApiApp.Services;
 using Microsoft.EntityFrameworkCore;
 using Refit;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +13,28 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.WriteIndented = true;
     });
+
+// Add Swagger service configuration
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Cat API",
+        Description = "API to fetch and store cat images from an external API and manage related data",
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        {
+            Name = "Manos Fragkiadis",
+            Email = "manolisfragiadis@gmail.com"
+        }
+    });
+
+    // Add the XML comment documentation
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
 
 // Set database
 builder.Services.AddDbContext<DataContext>(options =>
