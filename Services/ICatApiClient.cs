@@ -11,7 +11,7 @@ namespace CatApiApp.Services
         /// Fetches 25 cat images with breeds from the external API.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation. The task result contains a list of cat images.</returns>
-        [Get("/v1/imagefgsgsgs/search?limit=25&has_breeds=true")]
+        [Get("/v1/images/search?limit=25&has_breeds=true")]
         Task<List<CatApiResponse>> FetchCatImagesAsync();
     }
 

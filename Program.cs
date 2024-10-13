@@ -56,16 +56,23 @@ builder.Services.AddRefitClient<ICatApiClient>()
 // Register CatService in DI container
 builder.Services.AddScoped<CatService>();
 
+// Ensure Kestrel is listening on port 80
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(80);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseHttpsRedirection();
+    app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapControllers();
 
