@@ -31,7 +31,7 @@ namespace CatApiApp.Services
                         CatId = cat.Id,
                         Width = cat.Width,
                         Height = cat.Height,
-                        Image = "URL??",// handle it
+                        Image = cat.Url,
                         Tags = ExtractTagsFromBreed(cat.Breeds)
                     };
                     _context.Cats.Add(newCat);
