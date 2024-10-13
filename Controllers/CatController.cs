@@ -49,7 +49,7 @@ namespace CatApiApp.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while processing your request.", Details = ex.Message });
+                return StatusCode(500, new { error = ex.Message, details = ex.InnerException?.Message });
             }
         }
 
