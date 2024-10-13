@@ -40,15 +40,15 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Read CatApi settings from configuration
-var catApiSettings = builder.Configuration.GetSection("CatApi");
-var apiKey = catApiSettings["ApiKey"];
-var baseUrl = catApiSettings["BaseUrl"];
-
 // Configure Refit to use the API key for all requests
 builder.Services.AddRefitClient<ICatApiClient>()
     .ConfigureHttpClient(c =>
     {
+        // Read CatApi settings from configuration
+        var catApiSettings = builder.Configuration.GetSection("CatApi");
+        var apiKey = catApiSettings["ApiKey"];
+        var baseUrl = catApiSettings["BaseUrl"];
+
         c.BaseAddress = new Uri(baseUrl);
         c.DefaultRequestHeaders.Add("x-api-key", apiKey);
     });
