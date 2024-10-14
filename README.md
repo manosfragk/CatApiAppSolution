@@ -1,7 +1,6 @@
-
 # **Cat API Service**
 
-This project is an ASP.NET Core Web API that fetches 25 cat images from the "Cats as a Service" (TheCat) API, stores them in a SQL Server database, and provides endpoints for retrieving this data with paging and filtering support. The service also stores tags representing the cats' temperaments.
+This project is an ASP.NET Core Web API that fetches 25 cat images from the TheCat API, stores them in a SQL Server database, and provides endpoints for retrieving this data with paging and filtering support. The service also stores tags representing the cats' temperaments.
 
 ## **Features**
 - Fetch 25 cat images from the external API and store them in a SQL Server database.
@@ -15,10 +14,13 @@ Before you begin, ensure you have met the following requirements:
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or SQL Server Express installed and running.
+- [Docker](https://www.docker.com/get-started) (if you want to run the application in containers).
 - [Postman](https://www.postman.com/) or [Swagger](https://swagger.io/) to test the API (optional).
 - IDE such as [Visual Studio](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/).
 
-## **Installation and Setup**
+---
+
+## **Installation and Setup (Running Locally)**
 
 ### **1. Clone the Repository**
 
@@ -32,7 +34,7 @@ cd CatApiAppSolution
 1. Open the `appsettings.json` file and locate the `"ConnectionStrings"` section:
     ```json
     "ConnectionStrings": {
-      "DefaultConnection": "Server=your-server;Database=CatApiDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+          "DefaultConnection": "Server=localhost,1433;Database=CatApiDB;User Id=sa;Password=m3r3d@230592!;Trusted_Connection=False;Encrypt=False"
     }
     ```
 
@@ -75,9 +77,37 @@ This will create the database schema for the `CatEntity` and `TagEntity`.
    dotnet run
    ```
 
-The application will start, and you can access it at `http://localhost:5000` (by default). Swagger UI will be available at `http://localhost:5000/swagger`.
+The application will start, and you can access it at `https://localhost:7151` (by default). Swagger UI will be available at `https://localhost:7151/swagger`.
 
 ---
+
+## **Running the Application with Docker**
+
+You can run both the API and the SQL Server database in Docker containers using **Docker Compose**.
+
+### **1. Build the Docker Image**
+
+First, make sure Docker is installed and running. Then, from the project root directory (where the `Dockerfile` is located), build the Docker image for the application:
+
+```bash
+docker build -t catapp .
+```
+
+### **2. Start the Application Using Docker Compose**
+
+Run the following command to start both the **API** and **SQL Server** containers:
+
+```bash
+docker-compose up
+```
+
+### **3. Stopping and Cleaning Up Using Docker Compose**
+
+To stop the Docker containers, press CTRL + C in the terminal where docker-compose up is running, or run the following command:
+
+```bash
+docker-compose down
+```
 
 ## **Using the API**
 
@@ -120,7 +150,7 @@ This retrieves the first 10 cats that have the tag "playful."
 
 You can test the API endpoints using:
 - **Postman**: Import the endpoints and test by sending requests.
-- **Swagger**: Navigate to `http://localhost:5000/swagger` to access the Swagger UI and interact with the API.
+- **Swagger**: Navigate to `https://localhost:7151/swagger` (or `http://localhost:8080/swagger` when using Docker) to access the Swagger UI and interact with the API.
 
 ## **Project Structure**
 
@@ -138,6 +168,7 @@ The project follows a layered architecture to keep concerns separated:
 - **SQL Server**: Database for storing cats and tags.
 - **Refit**: To interact with the external Cat API.
 - **Swagger**: For API documentation.
+- **Docker**: For containerizing the application and database.
 
 ## **License**
 
