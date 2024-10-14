@@ -57,10 +57,14 @@ builder.Services.AddRefitClient<ICatApiClient>()
 builder.Services.AddScoped<CatService>();
 
 // Ensure Kestrel is listening on port 80
-builder.WebHost.ConfigureKestrel(serverOptions =>
+if (builder.Environment.IsProduction())
 {
-    serverOptions.ListenAnyIP(80);
-});
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        // Docker
+        serverOptions.ListenAnyIP(80);
+    });
+}
 
 var app = builder.Build();
 
