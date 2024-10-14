@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Explicitly track the test project folder and its files
+!/CatApiApp.Tests/
+!/CatApiApp.Tests/*.cs
+!/CatApiApp.Tests/*.csproj
