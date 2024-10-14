@@ -38,7 +38,7 @@ cd CatApiAppSolution
     }
     ```
 
-2. Replace `your-server` with your SQL Server instance name. If you're using SQL Server Express, it might be something like `localhost\SQLEXPRESS`.
+2. Replace `Server` with your SQL Server instance name. If you're using SQL Server Express, it might be something like `localhost\SQLEXPRESS`.
 
 3. Optionally, you can configure SQL Server authentication (if not using `Trusted_Connection=True`).
 

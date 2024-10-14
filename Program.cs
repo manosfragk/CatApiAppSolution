@@ -54,7 +54,7 @@ builder.Services.AddRefitClient<ICatApiClient>()
     });
 
 // Register CatService in DI container
-builder.Services.AddScoped<CatService>();
+builder.Services.AddScoped<ICatService, CatService>();
 
 // Ensure Kestrel is listening on port 80
 if (builder.Environment.IsProduction())
