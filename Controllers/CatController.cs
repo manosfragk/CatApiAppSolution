@@ -16,9 +16,9 @@ namespace CatApiApp.Controllers
     /// <param name="context">The database context for interacting with the database.</param>
     [ApiController]
     [Route("api/[controller]")]
-    public class CatController(CatService catService, DataContext context) : ControllerBase
+    public class CatController(ICatService catService, DataContext context) : ControllerBase
     {
-        private readonly CatService _catService = catService;
+        private readonly ICatService _catService = catService;
         private readonly DataContext _context = context;
 
         /// <summary>

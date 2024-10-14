@@ -12,7 +12,7 @@ namespace CatApiApp.Services
     /// </remarks>
     /// <param name="catApiClient">The client used to interact with the external Cat API.</param>
     /// <param name="context">The database context used to interact with the Cats and Tags entities.</param>
-    public class CatService(ICatApiClient catApiClient, DataContext context)
+    public class CatService(ICatApiClient catApiClient, DataContext context) : ICatService
     {
         private readonly ICatApiClient _catApiClient = catApiClient;
         private readonly DataContext _context = context;
