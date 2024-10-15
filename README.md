@@ -38,34 +38,17 @@ cd CatApiAppSolution
     }
     ```
 
-2. Replace `Server` with your SQL Server instance name. If you're using SQL Server Express, it might be something like `localhost\SQLEXPRESS`.
-
-3. Optionally, you can configure SQL Server authentication (if not using `Trusted_Connection=True`).
+2. Replace `Server` with your SQL Server instance name.
 
 ### **3. Install Dependencies**
 
 Navigate to the project root and run the following command to restore NuGet packages:
+
 ```bash
 dotnet restore
 ```
 
-### **4. Set Up the Database**
-
-1. **Add Migrations**: 
-   Generate migrations for the database:
-   ```bash
-   dotnet ef migrations add InitialCreate
-   ```
-
-2. **Apply Migrations**: 
-   Apply the migrations to the database to create the necessary tables:
-   ```bash
-   dotnet ef database update
-   ```
-
-This will create the database schema for the `CatEntity` and `TagEntity`.
-
-### **5. Build and Run the Application**
+### **4. Build and Run the Application**
 
 1. **Build the Application**:
    ```bash
@@ -73,9 +56,13 @@ This will create the database schema for the `CatEntity` and `TagEntity`.
    ```
 
 2. **Run the Application**:
+
+Since migrations are automatically applied at startup, you do not need to manually apply them. Simply run the application using the following command:
+
    ```bash
    dotnet run
    ```
+This will automatically create the necessary database schema if it doesn't exist and run any pending migrations.
 
 The application will start, and you can access it at `https://localhost:7151` (by default). Swagger UI will be available at `https://localhost:7151/swagger`.
 
@@ -101,13 +88,60 @@ Run the following command to start both the **API** and **SQL Server** container
 docker-compose up
 ```
 
-### **3. Stopping and Cleaning Up Using Docker Compose**
+This command will:
+- Start the **SQL Server** container.
+- Start the **API** container and ensure it can connect to the **SQL Server**.
 
-To stop the Docker containers, press CTRL + C in the terminal where docker-compose up is running, or run the following command:
+The API will be available at [http://localhost:8080](http://localhost:8080), and you can access the Swagger UI at [http://localhost:8080/swagger](http://localhost:8080/swagger).
+
+### **3. Running the API Locally with Dockerized SQL Server**
+
+If you want to run the API locally (outside Docker) but use the SQL Server container for your database, you can run just the SQL Server container using:
+
+```bash
+docker-compose up db
+```
+
+This will start the SQL Server container, and you can run your API using `dotnet run` in your development environment. In this case, ensure your **appsettings.Development.json** has the correct connection string:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost,1433;Database=CatApiAppDb;User Id=sa;Password=m3r3d@230592!;Trusted_Connection=False;Encrypt=False"
+  }
+}
+```
+
+This allows your local API to connect to the Dockerized SQL Server.
+
+### **4. Stopping and Cleaning Up Using Docker Compose**
+
+To stop the Docker containers, press **CTRL + C** in the terminal where `docker-compose up` is running, or run the following command in a new terminal:
 
 ```bash
 docker-compose down
 ```
+
+This will stop and remove both the API and SQL Server containers but leave the persistent data in the `sqlserverdata` volume.
+
+### **5. Rebuilding After Code Changes**
+
+If you make changes to the code and want to rebuild the application, you can:
+
+1. **Rebuild the Docker image**:
+
+    ```bash
+    docker-compose build
+    ```
+
+2. **Restart the containers**:
+
+    ```bash
+    docker-compose up
+    ```
+
+By following these steps, you can switch easily between running the full application in Docker or running only the database container while developing the API locally.
+
 
 ## **Using the API**
 
