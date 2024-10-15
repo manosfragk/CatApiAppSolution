@@ -64,7 +64,7 @@ Since migrations are automatically applied at startup, you do not need to manual
    ```
 This will automatically create the necessary database schema if it doesn't exist and run any pending migrations.
 
-The application will start, and you can access it at `https://localhost:7151` (by default). Swagger UI will be available at `https://localhost:7151/swagger`.
+The application will start, and you can access it at [http://localhost:7151](http://localhost:7151) (by default). Swagger UI will be available at [http://localhost:7151/swagger](http://localhost:7151/swagger).
 
 ---
 
